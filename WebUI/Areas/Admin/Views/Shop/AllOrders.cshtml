@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WebUI.Areas.Admin.ViewModels.OrdersForAdminVM>
+
+@{
+    ViewBag.Title = "AllOrders";
+}
+
+<h2>All Orders</h2>
+
+@if (!Model.Any())
+{
+    <h3> There are no Orders...</h3>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Order Number
+            </th>
+            <th>
+                UserName
+            </th>
+            <th>
+                Order Details
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Order Created At
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @foreach (var _item in item.ProductsandQTY)
+                    {
+                        @_item.Key @:x @_item.Value <br />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+}

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<WebUI.ViewModels.ProductVM>
+@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Products</h2>
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">@TempData["SM"]</div>
+}
+
+<p>
+    @Html.ActionLink("Add new Product ", "AddProduct")
+</p>
+
+<select id="selectcategory" name="selectcategory">
+    <option value="0">All</option>
+
+    @foreach (var item in ViewBag.Categories)
+    {
+        if (ViewBag.selectedCat == item.Value)
+        {
+            <option selected="selected" value=@item.Value>@item.Text</option>
+        }
+        else
+        {
+            <option value=@item.Value>@item.Text</option>
+        }
+    }
+</select>
+<br />
+<br />
+
+<table class="table sorting" id="products">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Image
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in ViewBag.onePageOfProducts)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>@item.Price</td>
+            <td>
+                <a href="/admin/shop/EditProduct/@item.Id">
+                    <img src="/Images/Uploads/Products/@item.Id/Thumbs/@item.ImageName" />
+                </a>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditProduct", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteProduct", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.PagedListPager((IPagedList)ViewBag.onePageOfProducts, page => Url.Action("Products", new { page, catId = ViewBag.SelectedCat }))
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("#selectcategory").on("change", function () {
+                var url = $(this).val();
+                if (url) {
+                    window.location = "/admin/shop/products?catId=" + url;
+                }
+                return false;
+            })
+        });
+    </script>
+}
+
+
+

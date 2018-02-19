@@ -1,0 +1,12 @@
+﻿@model IEnumerable<WebUI.ViewModels.PageVM>
+
+@{
+    ViewBag.Title = "PartialPages";
+}
+
+
+@foreach (var item in Model)
+{
+    <li><a href="/@item.Slug">@item.Title</a></li>
+}
+

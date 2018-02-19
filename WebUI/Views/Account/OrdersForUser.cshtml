@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebUI.ViewModels.OrdersForUserVM>
+
+@{
+    ViewBag.Title = "OrdersForUser";
+}
+
+<h2>Orders For User</h2>
+
+@if (!Model.Any())
+{
+    <h3 class="text-center"> You have no orders </h3>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Order Number
+            </th>
+            <th>
+                Order Details
+            </th>
+            <th>
+                Ordered at
+            </th>
+            <th>
+                Total
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderNumber)
+                </td>
+                <td>
+                    @foreach (var _item in item.ProductsandQTY)
+                    {
+                        @_item.Key @:x  @_item.Value <br>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td></td>
+            </tr>
+        }
+    </table>
+}

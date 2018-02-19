@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WebUI.ViewModels.SideBarVM>
+
+@{
+    ViewBag.Title = "Sidebars";
+}
+
+@if (TempData["SM"] != null)
+{
+    <div class="alert alert-success">@TempData["SM"]</div>
+}
+
+
+<p>
+    @Html.ActionLink("Create New Sidebar", "CreateSidebar")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Body)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Body)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditSideBar", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteSideBar", new { id = item.Id }, new { @class = "delete" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("a.delete").click(function () {
+                if (!confirm("Confirm Sidebar deletion")) return false;
+            });
+        });
+    </script>
+}
